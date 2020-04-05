@@ -5,6 +5,7 @@ import com.compiler.server.service.KotlinProjectExecutor
 import org.junit.jupiter.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.io.ByteArrayOutputStream
 
 @Component
 class TestProjectRunner {
@@ -16,9 +17,19 @@ class TestProjectRunner {
     return runAndTest(project, contains)
   }
 
+  fun runStreaming(code: String, contains: String, args: String = ""): ExecutionResult {
+    val project = generateSingleProject(text = code, args = args)
+    return runAndTestStreaming(project, contains)
+  }
+
   fun multiRun(code: List<String>, contains: String) {
     val project = generateMultiProject(*code.toTypedArray())
     runAndTest(project, contains)
+  }
+
+  fun multiRunStreaming(code: List<String>, contains: String) {
+    val project = generateMultiProject(*code.toTypedArray())
+    runAndTestStreaming(project, contains)
   }
 
   fun runJs(code: String, contains: String, args: String = "") {
@@ -90,6 +101,14 @@ class TestProjectRunner {
     Assertions.assertNotNull(result, "Test result should no be a null")
     Assertions.assertTrue(result.text.contains(contains) == true, "Actual: ${result.text}. \n Expected: $contains")
     return result
+  }
+
+  private fun runAndTestStreaming(project: Project, contains: String): ExecutionResult {
+    val outputStream = ByteArrayOutputStream()
+    kotlinProjectExecutor.runStreaming(project, outputStream)
+    val resultString = outputStream.toByteArray().toString()
+    println(resultString)
+    return ExecutionResult()
   }
 
   private fun convertAndTest(project: Project, contains: String) {

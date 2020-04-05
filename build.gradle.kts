@@ -44,7 +44,6 @@ allprojects {
 
 dependencies {
 
-    kotlinDependency("junit:junit:4.12")
     kotlinDependency("org.hamcrest:hamcrest-core:2.2")
     kotlinDependency("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.10")
     kotlinDependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
@@ -57,7 +56,6 @@ dependencies {
     annotationProcessor("org.springframework:spring-context-indexer")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.4")
-    implementation("junit:junit:4.12")
     implementation("org.jetbrains.intellij.deps:trove4j:1.0.20190514")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
